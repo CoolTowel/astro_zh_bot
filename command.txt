@@ -1,0 +1,6 @@
+start - 点击就送16寸DOB
+apod - 输入六位日期数字（YYMMDD）获取对应APOD，留空则获取当日APOD
+startapod - 订阅APOD，每日18时发送
+stopapod - 停止订阅APOD
+cometweekly - 获取这周的明亮彗星
+moonphase - 获取月相
