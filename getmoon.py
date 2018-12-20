@@ -59,7 +59,7 @@ def get_moonphase():
             elif pctillum < 50:
                 phasename = '残月'
         #蛾眉月, 盈凸月, 亏凸月与残月
-        output = phasename + ' ' + str(pctillum)
+        output = phasename + ' ' + str(pctillum) + '%'
         #输出月相名称及百分比
         return output
         #返回结果
