@@ -21,7 +21,7 @@ LDZ = int(time.mktime(user_time_1st))
 url = 'http://www.icalendar37.net/lunar/api/?lang=en&month=' + str(user_month) + '&year=' + str(user_year) + '&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=' + str(LDZ)
 #生成url
 
-dict = {'New Moon':'新月', 'First quarter':'上弦月', 'Last quarter':'下弦月', 'Full moon':'满月'}
+dict = {'New Moon':'🌑  新月', 'First quarter':'🌓  上弦月', 'Last quarter':'🌗  下弦月', 'Full moon':'🌕  满月'}
 #部分月相名称字典
 
 
@@ -50,16 +50,16 @@ def get_moonphase():
         #新月, 上弦月, 下弦月与满月
         elif phasename == 'Waxing':
             if pctillum < 50:
-                phasename = '蛾眉月'
+                phasename = '🌒  蛾眉月'
             elif pctillum > 50:
-                phasename = '盈凸月'
+                phasename = '🌔  盈凸月'
         elif phasename == 'Waning':
             if pctillum > 50:
-                phasename = '亏凸月'
+                phasename = '🌖  亏凸月'
             elif pctillum < 50:
-                phasename = '残月'
+                phasename = '🌘  残月'
         #蛾眉月, 盈凸月, 亏凸月与残月
-        output = phasename + ' ' + str(pctillum) + '%'
+        output = phasename + '  ' + str(pctillum) + "%"
         #输出月相名称及百分比
         return output
         #返回结果
