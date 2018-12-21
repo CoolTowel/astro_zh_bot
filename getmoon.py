@@ -1,25 +1,5 @@
-import time
+﻿import time
 import requests
-
-user_timezone = -8
-#设定用户时区, 默认为东八区
-user_timestamp = time.time() + 3600 * user_timezone
-#获取时间戳, 并按照用户时区进行偏移
-user_time = time.localtime(user_timestamp)
-#格式化用户时间
-user_year = time.strftime('%Y', user_time)
-#获取用户年份
-user_month = time.strftime('%m', user_time)
-#获取用户月份
-user_date = time.strftime('%d', user_time)
-#获取用户日期
-user_time_1st = time.strptime(str(user_year) + '-' + str(user_month) + '-' + '1', '%Y-%m-%d')
-#用户时区当月1日的格式化时间
-LDZ = int(time.mktime(user_time_1st))
-#获取LDZ, 即按时区偏移后的当月1日零时时间戳取整
-
-url = 'http://www.icalendar37.net/lunar/api/?lang=en&month=' + str(user_month) + '&year=' + str(user_year) + '&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=' + str(LDZ)
-#生成url
 
 dict = {'New Moon':'🌑  新月', 'First quarter':'🌓  上弦月', 'Last quarter':'🌗  下弦月', 'Full moon':'🌕  满月'}
 #部分月相名称字典
@@ -31,6 +11,25 @@ def round_new(value):
 
 
 def get_moonphase():
+    user_timezone = -8
+    #设定用户时区, 默认为东八区
+    user_timestamp = time.time() + 3600 * user_timezone
+    #获取时间戳, 并按照用户时区进行偏移
+    user_time = time.localtime(user_timestamp)
+    #格式化用户时间
+    user_year = time.strftime('%Y', user_time)
+    #获取用户年份
+    user_month = time.strftime('%m', user_time)
+    #获取用户月份
+    user_date = time.strftime('%d', user_time)
+    #获取用户日期
+    user_time_1st = time.strptime(str(user_year) + '-' + str(user_month) + '-' + '1', '%Y-%m-%d')
+    #用户时区当月1日的格式化时间
+    LDZ = int(time.mktime(user_time_1st))
+    #获取LDZ, 即按时区偏移后的当月1日零时时间戳取整
+    url = 'http://www.icalendar37.net/lunar/api/?lang=en&month=' + str(user_month) + '&year=' + str(user_year) + '&size=100&lightColor=rgb(255,255,255)&shadeColor=rgb(17,17,17)&LDZ=' + str(LDZ)
+    #生成url
+    
     try:
         data = requests.get(url).json()
         #读取网页json数据
