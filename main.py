@@ -8,6 +8,7 @@ from telegram.ext import Dispatcher, MessageHandler, Filters, CommandHandler
 import getapod
 import getcomet
 import getmoon
+import getmercury
 
 # Load data from config.ini file
 config = configparser.ConfigParser()
