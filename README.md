@@ -3,7 +3,10 @@
 # 环境依赖
 python3 开发环境
 
-目前用到的包有：python-telegram-bot，flask，gunicron，requests，numpy，html2text，hanziconv。
+目前用到的包有：
+```
+python-telegram-bot flask gunicron requests numpy html2text hanziconv。
+```
 # 主要功能
 每日APOD播报，历史APOD查询，来自于NASA以及台湾成功大学（翻译过的APOD说明文本）。
 
