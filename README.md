@@ -14,4 +14,6 @@ python-telegram-bot flask gunicron requests numpy html2text hanziconv apschedule
 
 月相数据来自 [iCalendar37](http://www.icalendar37.net/lunar/app/)
 
+水逆查询 来自[这里](https://mercuryretrogradeapi.com/)
+
 欢迎各位天文爱好者补充功能
