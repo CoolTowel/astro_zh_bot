@@ -7,24 +7,33 @@ from hanziconv import HanziConv
 
 def get_pic(url):
     r = requests.get(url).text
-    found = re.findall('image/.*.jpg',r)
-    pic_url = 'https://apod.nasa.gov/apod/' + found[-1]
-    return pic_url
-	
+    p = re.compile('SRC=\"image(.*?\.jpg)\"')
+    pic = p.findall(r)
+    if pic:
+        pic_url = 'https://apod.nasa.gov/apod/image' + pic[-1]
+        return pic_url
+    else:
+        v = re.compile('src=\"(.*?rel\=0)\"')
+        video = v.findall(r)
+        return video[0]
+
 def get_exp(url,lan):
     if lan == 'zh': 
         r = requests.get(url)
         r.encoding = r.apparent_encoding
         r = r.text
         r = r.replace('\n','')
-        exp = re.findall('\d\d\d\d 年.*<p> <center>',r)[0]
+        date = re.findall('\d\d\d\d ?年 ?\d+ ?月 ?\d+ ?日',r)[0] #find the date of APOD
         h2t = html2text.HTML2Text()
         h2t.ignore_links = True
+        exp = re.findall('</center>[\s]{0,}<center>[\s\S]+<p> ?<center>',r)[0] #find the explanation of APOD 
         exp = HanziConv.toSimplified(h2t.handle(exp))
-        mv = re.findall('![^我可去你妈的正则表达式]*\)',exp)[0]
-        exp = exp.replace(mv,'\n')
+        explist = exp.split('**说明:**')
+        exp1 = explist[0]
+        exp2 = explist[1].replace('\n','')
+        exp = exp1 + '*说明：*' +exp2
         exp = exp.replace('**','*')
-        return exp
+        return date + '\n\n' + exp
     else:
         url = 'https://apod.nasa.gov/apod/astropix.html'
         r = requests.get(url)
@@ -36,5 +45,8 @@ def get_exp(url,lan):
         exp = h2t.handle(exp)
         return exp
 
-if __name__ == '__name__':
-    print(get_pic()+'\n'+get_exp('http://sprite.phys.ncku.edu.tw/astrolab/mirrors/apod/apod.html',zh))
+if __name__ == '__main__':
+    pic = get_pic('https://apod.nasa.gov/apod/astropix.html')
+    print(pic)
+    exp = get_exp('http://sprite.phys.ncku.edu.tw/astrolab/mirrors/apod/apod.html','zh')
+    print(r''+exp)
