@@ -2,8 +2,7 @@ import os
 import re
 import requests
 import html2text
-from hanziconv import HanziConv
-
+import opencc
 
 def get_pic(url):
     r = requests.get(url).text
@@ -19,6 +18,7 @@ def get_pic(url):
 
 def get_exp(url,lan):
     if lan == 'zh': 
+        converter = opencc.OpenCC('t2s.json')
         r = requests.get(url)
         r.encoding = r.apparent_encoding
         r = r.text
@@ -27,7 +27,7 @@ def get_exp(url,lan):
         h2t = html2text.HTML2Text()
         h2t.ignore_links = True
         exp = re.findall('</center>[\s]{0,}<center>[\s\S]+<p> ?<center>',r)[0] #find the explanation of APOD 
-        exp = HanziConv.toSimplified(h2t.handle(exp))
+        exp = converter.convert(h2t.handle(exp))
         explist = exp.split('**说明:**')
         exp1 = explist[0]
         exp2 = explist[1].replace('\n','')
