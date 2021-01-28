@@ -61,8 +61,7 @@ def apod(bot, update, args):
         url = 'https://apod.nasa.gov/apod/ap'+ date + '.html'
         url_zh = 'http://sprite.phys.ncku.edu.tw/astrolab/mirrors/apod/ap' + date + '.html'
         
-    bot.send_message(chat_id=update.message.chat_id, text= getapod.get_pic(url))
-    bot.send_message(chat_id=update.message.chat_id, text= getapod.get_exp(url_zh,'zh'), parse_mode='Markdown')
+    bot.send_photo(chat_id=update.message.chat_id, photo=getapod.get_pic(url), text=getapod.get_exp(url_zh,'zh'))
     
 def stopapod(bot,update):
     with open('id.txt','r') as id:
