@@ -4,12 +4,13 @@ import requests
 import html2text
 import opencc
 
+
 def get_pic(url):
     r = requests.get(url).text
     p = re.compile('SRC=\"image(.*?\.jpg)\"')
     pic = p.findall(r)
     if pic:
-        pic_url = 'https://apod.nasa.gov/apod/image' + pic[-1]
+        pic_url = 'http://sprite.phys.ncku.edu.tw/astrolab/mirrors/apod/image' + pic[-1]
         return pic_url
     else:
         v = re.compile('src=\"(.*?rel\=0)\"')

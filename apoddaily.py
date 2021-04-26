@@ -1,3 +1,4 @@
+import time
 import configparser
 import telegram
 import getapod
@@ -17,11 +18,17 @@ def job():
     id = np.unique(id)
     pic = getapod.get_pic(url)
     exp = getapod.get_exp(url_zh,'zh')
+    bot.send_message(chat_id='@APOD_hans', text = pic)
+    bot.send_message(chat_id='@APOD_hans', text= exp , parse_mode='Markdown')
+    time.sleep(1)
+    
     for w in id:
+        time.sleep(1)
         bot.send_message(chat_id=w, text = pic)
         bot.send_message(chat_id=w, text= exp , parse_mode='Markdown')
-        
     
+
 scheduler = BlockingScheduler()
-scheduler.add_job(job,'cron', day_of_week='0-6', hour=9, minute=59)
+scheduler.add_job(job,'cron', day_of_week='0-6', hour=6, minute=00)
 scheduler.start()
+
