@@ -1,7 +1,7 @@
 # configuration which the bot needs
 id.txt
 config.ini
-
+.vscode
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

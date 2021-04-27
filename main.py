@@ -1,6 +1,7 @@
 import configparser
 import logging
 
+import numpy as np
 import telegram
 from flask import Flask, request
 from telegram.ext import Dispatcher, MessageHandler, Filters, CommandHandler
@@ -37,19 +38,25 @@ def webhook_handler():
     return 'ok'
 
 
-def reply_handler(bot, update):
-    """Reply message."""
-    text = update.message.text
-    update.message.reply_text(text)
+# def reply_handler(bot, update):
+#     """Reply message."""
+#     text = update.message.text
+#     update.message.reply_text(text)
 
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="周末晴天无月夜？不存在的。——郭守敬")
     
+def gaoyazi(bot, update):
+    bot.send_photo(chat_id=update.message.chat_id, photo="https://my.meteoblue.com/visimage/meteogram_web_hd?look=KILOMETER_PER_HOUR%2CCELSIUS%2CMILLIMETER&apikey=5838a18e295d&temperature=C&windspeed=kmh&precipitationamount=mm&winddirection=3char&city=Gayazigou&iso2=cn&lat=43.518200&lon=88.577400&asl=1778&tz=Asia%2FUrumqi&lang=en&sig=3b920e91976e799d50de6deb09c8482b")
+
+
 def startapod(bot,update):
-    with open('id.txt','a+') as id:
-        id.write(str(update.message.chat_id)+'\n')
-    
-    bot.send_message(chat_id=update.message.chat_id, text="订阅成功")
+    id = np.loadtxt('id.txt',dtype=int)
+    if np.sum(id == update.message.chat_id):
+        bot.send_message(chat_id=update.message.chat_id, text="订阅成功")
+    else:
+        np.savetxt('id.txt', np.append(id, update.message.chat_id), fmt ='%.0f')
+        bot.send_message(chat_id=update.message.chat_id, text="订阅成功")
     
 
 def apod(bot, update, args):
@@ -65,13 +72,10 @@ def apod(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text= getapod.get_exp(url_zh,'zh'),parse_mode='Markdown')
     
 def stopapod(bot,update):
-    with open('id.txt','r') as id:
-        idstr = id.read()
-        idstr = idstr.replace(str(update.message.chat_id)+'\n','')
-    
-    with open('id.txt','w') as id:
-        id.write(idstr)
-        
+    id = np.loadtxt('id.txt',dtype=int)
+    id = np.delete(id, np.argwhere(id == update.message.chat_id))
+    np.savetxt('id.txt', id, fmt ='%.0f')
+
     bot.send_message(chat_id=update.message.chat_id, text="已取消")
 
 def cometweekly(bot,update):
@@ -88,11 +92,15 @@ dispatcher = Dispatcher(bot, None)
 
 # Add handler for handling message, there are many kinds of message. For this handler, it particular handle text
 # message.
-dispatcher.add_handler(MessageHandler(Filters.text, reply_handler))
+# dispatcher.add_handler(MessageHandler(Filters.text, reply_handler))
 
 # start command reply
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
+
+# get the meteoblue 5-days diagram of gaoyazi
+gaoyazi_handler = CommandHandler('gaoyazi', gaoyazi)
+dispatcher.add_handler(gaoyazi_handler)
 
 # apod command
 apod_handler = CommandHandler('apod', apod, pass_args=True)
