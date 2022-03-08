@@ -1,6 +1,14 @@
 # configuration which the bot needs
 id.txt
 config.ini
+
+# test file
+/caddy/
+/test/
+id_test.txt
+main.py.backup
+
+# vscode cache
 .vscode
 # Byte-compiled / optimized / DLL files
 __pycache__/
