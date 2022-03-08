@@ -8,6 +8,8 @@ config.ini
 id_test.txt
 main.py.backup
 
+.DS_Store
+
 # vscode cache
 .vscode
 # Byte-compiled / optimized / DLL files
