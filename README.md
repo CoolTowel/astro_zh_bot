@@ -5,8 +5,8 @@ python3 开发环境
 
 目前用到的包有：
 ```
-python-telegram-bot flask gunicorn requests numpy html2text opencc apscheduler hanziconv PIL astropy astroquery
-```
+python-telegram-bot==12.0.0 flask gunicorn requests numpy html2text opencc apscheduler hanziconv pillow astropy astroquery matplotlib
+``` 
 # 主要功能
 每日APOD播报，历史APOD查询，来自于NASA以及台湾成功大学（翻译过的APOD说明文本）。
 
