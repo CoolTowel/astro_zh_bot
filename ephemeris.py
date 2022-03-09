@@ -124,9 +124,12 @@ def ephemeris(obj_name, day_offset_str=None):
     ax.set_xlabel(time_loc.to_value('iso_custom', subfmt='date'))
 
     obj_simbad_str = re.sub(' +', ' ', result_table['MAIN_ID'][0])
-    ax.set_title(obj_simbad_str+' (%s)' % (obj_name))
-
-    # plt.tight_layout()
+    obj_name_str = re.sub('_', ' ', obj_name)
+    ax.set_title(obj_simbad_str+' (%s)' % (obj_name_str))
+    
+    plt.tight_layout()
+    fig.text(0.025,0.05, 'Created by @astro_zh_bot', fontsize=12, color = [0.75]*3, style='italic')
+    
     save_path = folder_path+ '{}_{}.png'.format(obj_name, time_loc.to_value('iso_custom', subfmt='date'))
     fig.savefig(save_path,dpi=300)
     re_url = '[{} {}]({}{}{}_{}.png)'.format(obj_name, time_loc.to_value('iso_custom', subfmt='date'), website, url_path, obj_name, time_loc.to_value('iso_custom', subfmt='date'))
@@ -134,4 +137,6 @@ def ephemeris(obj_name, day_offset_str=None):
 
 
 if __name__ == '__main__':
-    print(ephemeris('M31'))
+    folder_path = './test/'
+    print(ephemeris('Andromeda'))
+    plt.show()
