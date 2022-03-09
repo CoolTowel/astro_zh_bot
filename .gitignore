@@ -7,6 +7,7 @@ config.ini
 /test/
 id_test.txt
 main.py.backup
+index.html
 
 .DS_Store
 
